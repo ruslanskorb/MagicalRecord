@@ -13,6 +13,8 @@
 #import "MagicalRecord+iCloud.h"
 #import "MagicalRecordLogging.h"
 
+#import <FBFetchedResultsController/FBFetchedResultsController.h>
+
 static NSString * const MagicalRecordContextWorkingName = @"MagicalRecordContextWorkingName";
 
 static NSManagedObjectContext *MagicalRecordRootSavingContext;
@@ -209,6 +211,7 @@ static id MagicalRecordUbiquitySetupNotificationObserver;
     }
 
     [[self MR_defaultContext] mergeChangesFromContextDidSaveNotification:notification];
+    [FBFetchedResultsController didMergeChangesFromContextDidSaveNotification:notification intoContext:[self MR_defaultContext]];
 }
 
 #pragma mark - Private Methods

@@ -11,6 +11,8 @@
 #import "MagicalRecord+iCloud.h"
 #import "MagicalRecordLogging.h"
 
+#import <FBFetchedResultsController/FBFetchedResultsController.h>
+
 NSString * const kMagicalRecordDidMergeChangesFromiCloudNotification = @"kMagicalRecordDidMergeChangesFromiCloudNotification";
 
 @implementation NSManagedObjectContext (MagicalObserving)
@@ -55,6 +57,7 @@ NSString * const kMagicalRecordDidMergeChangesFromiCloudNotification = @"kMagica
               ([NSThread isMainThread] ? @" *** on Main Thread ***" : @""));
         
         [self mergeChangesFromContextDidSaveNotification:notification];
+        [FBFetchedResultsController didMergeChangesFromContextDidSaveNotification:notification intoContext:self];
         
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -71,6 +74,7 @@ NSString * const kMagicalRecordDidMergeChangesFromiCloudNotification = @"kMagica
           ([NSThread isMainThread] ? @" *** on Main Thread ***" : @""));
     
 	[self mergeChangesFromContextDidSaveNotification:notification];
+    [FBFetchedResultsController didMergeChangesFromContextDidSaveNotification:notification intoContext:self];
 }
 
 - (void) MR_mergeChangesOnMainThread:(NSNotification *)notification;
